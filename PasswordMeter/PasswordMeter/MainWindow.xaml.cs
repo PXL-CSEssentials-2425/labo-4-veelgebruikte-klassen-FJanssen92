@@ -32,7 +32,92 @@ namespace PasswordMeter
 
         private void passwordMeterButton_Click(object sender, RoutedEventArgs e)
         {
+            
+            string username = userNameTextBox.Text;
+            string password = passwordTextBox.Text;
 
+            if (username.Length == 0)
+            {
+                resultTextBlock.Text = "Gelieve een gebruikersnaam in te geven.";
+                return;
+            }
+
+            if (password.Length == 0)
+            {
+                resultTextBlock.Text = "Gelieve een wachtwoord in te geven.";
+                return;
+            }
+            //if (string.IsNullorEmpty(username) || string.IsNullorEmpty(password)
+
+            username = username.Trim();
+            password = password.Trim();
+            int passwordStrength = 0;
+
+            if (!password.Contains(username))
+            {
+                passwordStrength++;
+                
+            }
+
+            if (password.Length >= 10)
+            {
+                passwordStrength++;
+            }
+
+            bool isDigit = false;
+            bool hasUpper = false;
+            bool hasLower = false;
+
+            foreach (char c in password.ToCharArray())
+            {
+                
+                if (char.IsDigit(c))
+                {
+                    isDigit = true;
+
+                }
+
+                if (char.IsLower(c))
+                {
+                    hasLower = true;
+                }
+
+                if (char.IsUpper(c))
+                {
+                    hasUpper = true;
+                }
+
+
+            }
+
+            if (isDigit)
+            {
+                passwordStrength++;
+            }
+            if (hasUpper)
+            {
+                passwordStrength++;
+            }
+            if (hasLower)
+            {
+                passwordStrength++;
+            }
+
+            switch (passwordStrength)
+            {
+                case 5:
+                    resultTextBlock.Foreground = Brushes.Green;
+                    resultTextBlock.Text = ("Sterk wachtwoord!");
+                    break;
+                case 4:
+                    resultTextBlock.Foreground = Brushes.Orange;
+                    resultTextBlock.Text = ("OK wachtwoord.");
+                    break;
+                default:
+                    resultTextBlock.Foreground = Brushes.Red;
+                    resultTextBlock.Text = ("Slecht wachtwoord!");
+                    break;
+            }
         }
     }
 }
